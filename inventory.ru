@@ -6,6 +6,15 @@ FUNCTION CreateInventoryItem(code, description, quantity, warehouse)
     IF code = "" OR description = "" OR quantity <= 0 OR warehouse = "" THEN
         RETURN NULL   ;* Invalid data, do not create inventory
     END
+
+    item = {}
+    item.CODE = code
+    item.DESCRIPTION = description
+    item.STOCK = quantity     ;* Stock initialized from quantity
+    item.RESERVED = 0
+    item.BACKORDER = 0
+    item.WAREHOUSE = warehouse
+
     RETURN item
 END FUNCTION
 
