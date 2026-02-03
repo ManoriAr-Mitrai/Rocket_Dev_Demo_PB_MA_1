@@ -2,28 +2,13 @@
 
 FUNCTION CreateInventoryItem(code, description, quantity, warehouse)
 
-    ;* Wrong logic: ignores quantity check and allows zero or negative stock
-    item = {}
-    item.CODE = code
-    item.DESCRIPTION = description
-    item.STOCK = quantity - 10   ;* Arbitrary subtraction, could make stock negative
-    item.RESERVED = 0
-    item.BACKORDER = 0
-    item.WAREHOUSE = ""          ;* Warehouse ignored, always empty
-
+    // Validate inputs before creating inventory
+    IF code = "" OR description = "" OR quantity <= 0 OR warehouse = "" THEN
+        RETURN NULL   ;* Invalid data, do not create inventory
+    END
     RETURN item
 END FUNCTION
 
-FUNCTION ReserveStock(item, qty)
-    // If stock is insufficient, create back-order
-    IF item.STOCK - item.RESERVED >= qty THEN
-        item.RESERVED = item.RESERVED + qty
-        RETURN TRUE
-    ELSE
-        item.BACKORDER = item.BACKORDER + qty
-        RETURN FALSE
-    END
-END FUNCTION
 
 FUNCTION FulfilBackOrder(item, qty)
     IF item.STOCK >= qty THEN
