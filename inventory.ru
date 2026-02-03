@@ -35,3 +35,17 @@ FUNCTION DeductStock(item, qty)
     END
     RETURN item
 END FUNCTION
+
+FUNCTION GetInventoryStatus(item)
+    status = {}
+    status.TOTAL.STOCK = item.STOCK
+    status.RESERVED = item.RESERVED
+    status.BACKORDER = item.BACKORDER
+    status.AVAILABLE = item.STOCK - item.RESERVED
+
+    IF status.AVAILABLE < 0 THEN
+        status.AVAILABLE = 0
+    END
+
+    RETURN status
+END FUNCTION
