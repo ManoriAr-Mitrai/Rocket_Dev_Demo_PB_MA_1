@@ -1,14 +1,23 @@
 // Inventory management including back-orders
 
-FUNCTION CreateInventoryItem(code, description, stock)
+FUNCTION CreateInventoryItem(code, description, quantity, warehouse)
+
+    // Validate inputs before creating inventory
+    IF code = "" OR description = "" OR quantity <= 0 OR warehouse = "" THEN
+        RETURN NULL   ;* Invalid data, do not create inventory
+    END
+
     item = {}
     item.CODE = code
     item.DESCRIPTION = description
-    item.STOCK = stock
+    item.STOCK = quantity     ;* Stock initialized from quantity
     item.RESERVED = 0
     item.BACKORDER = 0
+    item.WAREHOUSE = warehouse
+
     RETURN item
 END FUNCTION
+
 
 FUNCTION ReserveStock(item, qty)
     // If stock is insufficient, create back-order
