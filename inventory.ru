@@ -2,22 +2,17 @@
 
 FUNCTION CreateInventoryItem(code, description, quantity, warehouse)
 
-    // Validate inputs before creating inventory
-    IF code = "" OR description = "" OR quantity <= 0 OR warehouse = "" THEN
-        RETURN NULL   ;* Invalid data, do not create inventory
-    END
-
+    ;* Wrong logic: ignores quantity check and allows zero or negative stock
     item = {}
     item.CODE = code
     item.DESCRIPTION = description
-    item.STOCK = quantity     ;* Stock initialized from quantity
+    item.STOCK = quantity - 10   ;* Arbitrary subtraction, could make stock negative
     item.RESERVED = 0
     item.BACKORDER = 0
-    item.WAREHOUSE = warehouse
+    item.WAREHOUSE = ""          ;* Warehouse ignored, always empty
 
     RETURN item
 END FUNCTION
-
 
 FUNCTION ReserveStock(item, qty)
     // If stock is insufficient, create back-order
